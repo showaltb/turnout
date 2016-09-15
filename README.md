@@ -113,6 +113,7 @@ Turnout can be configured in two different ways:
     ```ruby
     Turnout.configure do |config|
       config.app_root = '/some/path'
+      config.insert_middleware_before = Some::Middleware
       config.named_maintenance_file_paths = {app: 'tmp/app.yml', server: '/tmp/server.yml'}
       config.maintenance_file_class = My::MaintenanceFile
       config.maintenance_pages_path = 'app/views/maintenance'
@@ -132,6 +133,7 @@ Default Configuration
 ```ruby
 Turnout.configure do |config|
   config.app_root = '.'
+  config.insert_middleware_before = nil
   config.named_maintenance_file_paths = {default: config.app_root.join('tmp', 'maintenance.yml').to_s}
   config.maintenance_file_class = Turnout::MaintenanceFile
   config.maintenance_pages_path = config.app_root.join('public').to_s
@@ -155,6 +157,10 @@ The default maintenance file class, `Turnout::MaintenanceFile`, will
 store the maintenance file in the filesystem. You can provide a custom
 class to override the storage mechanism by setting
 `Turnout.confg.maintenance_file_class`.
+
+For Rails applications, the middleware is added at the end of the
+middleware stack. To insert the middleware at a different position, set
+`Turnout.config.insert_middleware_before`.
 
 Tips
 ====
