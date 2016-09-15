@@ -34,11 +34,12 @@ namespace :maintenance do
 
   def maintenance_file_for(task)
     path_name = (task.name.split(':') - ['maintenance', 'start', 'end']).join(':')
+    maintenance_file_class = Turnout.config.maintenance_file_class
 
     maint_file = if path_name == ''
-      Turnout::MaintenanceFile.default
+      maintenance_file_class.default
     else
-      Turnout::MaintenanceFile.named(path_name)
+      maintenance_file_class.named(path_name)
     end
 
     fail %{Unknown path name: "#{path_name}"} if maint_file.nil?

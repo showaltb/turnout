@@ -1,6 +1,6 @@
 module Turnout
   class Configuration
-    SETTINGS = [:app_root, :named_maintenance_file_paths,
+    SETTINGS = [:app_root, :named_maintenance_file_paths, :maintenance_file_class,
       :maintenance_pages_path, :default_maintenance_page, :default_reason,
       :default_allowed_paths, :default_response_code, :default_retry_after]
 
@@ -10,6 +10,7 @@ module Turnout
 
     def initialize
       @app_root = '.'
+      @maintenance_file_class = Turnout::MaintenanceFile
       @named_maintenance_file_paths = {default: app_root.join('tmp', 'maintenance.yml').to_s}
       @maintenance_pages_path = app_root.join('public').to_s
       @default_maintenance_page = Turnout::MaintenancePage::HTML

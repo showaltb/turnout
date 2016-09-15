@@ -99,6 +99,7 @@ Turnout can be configured in two different ways:
     use Rack::Turnout,
       app_root: '/some/path',
       named_maintenance_file_paths: {app: 'tmp/app.yml', server: '/tmp/server.yml'},
+      maintenance_file_class: My::MaintenanceFile,
       maintenance_pages_path: 'app/views/maintenance',
       default_maintenance_page: Turnout::MaintenancePage::JSON,
       default_reason: 'Somebody googled Google!',
@@ -113,6 +114,7 @@ Turnout can be configured in two different ways:
     Turnout.configure do |config|
       config.app_root = '/some/path'
       config.named_maintenance_file_paths = {app: 'tmp/app.yml', server: '/tmp/server.yml'}
+      config.maintenance_file_class = My::MaintenanceFile
       config.maintenance_pages_path = 'app/views/maintenance'
       config.default_maintenance_page = Turnout::MaintenancePage::JSON
       config.default_reason = 'Somebody googled Google!'
@@ -131,6 +133,7 @@ Default Configuration
 Turnout.configure do |config|
   config.app_root = '.'
   config.named_maintenance_file_paths = {default: config.app_root.join('tmp', 'maintenance.yml').to_s}
+  config.maintenance_file_class = Turnout::MaintenanceFile
   config.maintenance_pages_path = config.app_root.join('public').to_s
   config.default_maintenance_page = Turnout::MaintenancePage::HTML
   config.default_reason = "The site is temporarily down for maintenance.\nPlease check back soon."
@@ -147,6 +150,11 @@ Customization
 
 __WARNING:__
 The source code of any custom maintenance files you created in the `/public` directory will be able to be viewed by visiting that URL directly (i.e. `http://example.com/maintenance.html.erb`). This shouldn't be an issue with HTML and JSON files but with ERB files, it could be. If you're going to use a custom `.erb.html` file, we recommend you change the `maintenance_pages_path` setting to something other than the `/public` directory.
+
+The default maintenance file class, `Turnout::MaintenanceFile`, will
+store the maintenance file in the filesystem. You can provide a custom
+class to override the storage mechanism by setting
+`Turnout.confg.maintenance_file_class`.
 
 Tips
 ====
